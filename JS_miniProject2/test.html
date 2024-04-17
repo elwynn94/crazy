@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팀팀한팀원 소개</title>
+    <link rel="stylesheet" href="yj.css">
+</head>
+<body>
+    <h1>미7거거같조 팀팀한팀원소개</h1>
+    <div id="memberList"></div>
+
+    <script>
+        // 팀원 정보
+        var teamMembers = [
+            { name: "어동선", mbti: "INTP" },
+            { name: "강준모", mbti: "ISTJ" },
+            { name: "김윤재", mbti: "INFJ" },
+            { name: "노주연", mbti: "INTP" },
+            { name: "이제범", mbti: "ENFJ" }
+        ];
+
+        // 각 팀원 정보 반복문
+        teamMembers.forEach(function(member) {
+            // 멤버 카드 요소 생성
+            var memberCard = document.createElement("div");
+            memberCard.className = "member-card";
+
+            // 이름 요소 생성 및 추가
+            var nameElement = document.createElement("h2");
+            nameElement.className = "member-name";
+            nameElement.textContent = member.name;
+            memberCard.appendChild(nameElement);
+
+            // MBTI 요소 생성 및 추가
+            var mbtiElement = document.createElement("p");
+            mbtiElement.className = "member-mbti";
+            mbtiElement.textContent = "MBTI: " + member.mbti;
+            memberCard.appendChild(mbtiElement);
+
+            // 멤버 리스트에 추가
+            var memberList = document.getElementById("memberList");
+            memberList.appendChild(memberCard);
+        });
+    </script>
+</body>
+</html>
