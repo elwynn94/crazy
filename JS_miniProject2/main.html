@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미7거같조팀원</title>
+    <link rel="stylesheet" href="yj.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let index = 1;
+
+            function juyeonsAttack() {
+                var canvas = document.getElementById(`myCanvas${index++}`);
+                var context = canvas.getContext("2d");
+                var imgx = 200;
+                var imgy = 800;
+                var x = (canvas.width-imgx) *Math.random();
+                var y = (canvas.height-imgy) *Math.random();
+                var dx = Math.random() * 5 - Math.random() * 5;//-5~+5
+                var dy = Math.random() * 5 - Math.random() * 5;//-5~+5
+                var img = new Image();
+                img.src = "morty.png";
+                img.onload = function () {
+                    function draw() {
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        context.drawImage(img, x, y, imgx, imgy);
+                        x += dx;
+                        y += dy;
+                        if (x > canvas.width - imgx | x < 0)
+                            dx = -dx;
+                        if (y > canvas.height - imgy | y < 0)
+                            dy = -dy;
+                    }
+                    setInterval(draw, 10);
+                }
+            }
+            let timerId = setInterval(() => juyeonsAttack(), 1000);
+            setTimeout(() => { clearInterval(timerId); }, 24000);
+            function tinkle() {
+                const tinkle = document.getElementById("tinkle");
+
+                if (tinkle.style.opacity == "0") {
+                    tinkle.style.opacity = "1";
+                } else {
+                    tinkle.style.opacity = "0";
+                }
+            }
+            setInterval(tinkle, 300);
+        })
+    </script>
+    <style>
+        canvas {
+            position: fixed;
+            width: 100vw;
+            height: 40vh;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .tinkle {
+            z-index: -1;
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            top: 0;
+            left: 0;
+            background-image: url('rainbow2.jpg');
+            opacity: 1;
+            transition: opacity 500ms ease-in-out;
+        }
+
+        .canvasAlert {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+
+        .join-form,
+        .edit-form {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tinkle" id="tinkle"></div>
+    <canvas id="myCanvas1" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas2" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas3" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas4" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas5" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas6" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas7" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas8" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas9" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas10" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas11" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas12" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas13" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas14" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas15" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas16" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas17" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas18" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas19" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas20" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas21" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas22" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas23" width='1920' height='1080'></canvas>
+    <canvas id="myCanvas24" width='1920' height='1080'></canvas>
+    <h1>미7거같조 보석함</h1>
+    <div class="wrapper">
+
+    </div>
+    <div id="memberList">
+        <!-- 팀원 소개 칸 -->
+    </div>
+
+    <!-- 합류하기 버튼 -->
+    <button id="addButton">합류하기</button>
+
+    <!-- 합류하기 폼 -->
+    <div class="join-form">
+        <h2>합류하기</h2>
+        <form id="addForm">
+            <div>
+                <label for="addImageURL">이미지 주소:</label>
+                <input type="text" id="addImageURL" required>
+            </div>
+            <div>
+                <label for="addName">이름:</label>
+                <input type="text" id="addName" required>
+            </div>
+            <div>
+                <label for="addMbti">MBTI:</label>
+                <input type="text" id="addMbti" required>
+            </div>
+            <div>
+                <label for="addIntroduction">자기 소개:</label>
+                <textarea id="addIntroduction" rows="4" cols="50" required></textarea>
+            </div>
+            <div>
+                <label for="addStrengths">객관적인 자신의 장점:</label>
+                <textarea id="addStrengths" rows="2" cols="50" required></textarea>
+            </div>
+            <div>
+                <label for="addStyle">자신만의 협업 스타일:</label>
+                <textarea id="addStyle" rows="2" cols="50" required></textarea>
+            </div>
+            <div>
+                <label for="addGoal">추구하는 궁극적인 목표:</label>
+                <textarea id="addGoal" rows="2" cols="50" required></textarea>
+            </div>
+            <button type="submit">추가하기</button>
+            <button type="button" id="cancelAddButton">취소하기</button>
+        </form>
+    </div>
+
+    <!-- 수정 폼 -->
+    <div class="edit-form">
+        <h2>팀원 수정</h2>
+        <form id="editForm">
+            <div class="form-group">
+                <label for="editImageURL">이미지 주소:</label>
+                <input type="text" id="editImageURL" required>
+            </div>
+            <div class="form-group">
+                <label for="editName">이름:</label>
+                <input type="text" id="editName" required>
+            </div>
+            <div class="form-group">
+                <label for="editMbti">MBTI:</label>
+                <input type="text" id="editMbti" required>
+            </div>
+            <div class="form-group">
+                <label for="editIntroduction">자기 소개:</label>
+                <textarea id="editIntroduction" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editStrengths">객관적인 자신의 장점:</label>
+                <textarea id="editStrengths" rows="2" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editStyle">자신만의 협업 스타일:</label>
+                <textarea id="editStyle" rows="2" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editGoal">추구하는 궁극적인 목표:</label>
+                <textarea id="editGoal" rows="2" required></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" id="editSubmitButton">저장하기</button>
+                <button type="button" id="cancelEditButton">취소하기</button>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        // 팀원 정보
+        var teamMembers = [
+            { id: 1, name: "어동선", mbti: "INTP", image: "", introduction: "", strengths: "", style: "", goal: "" },
+            { id: 2, name: "강준모", mbti: "ISTJ", image: "", introduction: "", strengths: "", style: "", goal: "" },
+            { id: 3, name: "김윤재", mbti: "INFJ", image: "https://postfiles.pstatic.net/MjAyMzA1MTlfNTkg/MDAxNjg0NTA3MjI1MzY5.By6-h6NkUG7C2rkf65uenyHqJLE8NYCK7U0tLPn6LnMg.__rcEOf36DqndApIFdNs20GBBMWmpmU1Qk0vmg5rDtgg.JPEG.clover14_/028819A8-C0A4-4D3C-A611-1EDE52C4CF4D.jpg?type=w966", introduction: "", strengths: "", style: "", goal: "" },
+            { id: 4, name: "노주연", mbti: "INTP", image: "", introduction: "", strengths: "", style: "", goal: "" },
+            { id: 5, name: "이제범", mbti: "ENFJ", image: "", introduction: "", strengths: "", style: "", goal: "" }
+        ];
+
+        // 팀원 리스트 표시 함수
+        function displayTeamMembers() {
+            var memberList = document.getElementById("memberList");
+            memberList.innerHTML = ""; // 기존 목록 초기화
+
+            teamMembers.forEach(function (member) {
+                var memberCard = document.createElement("div");
+                memberCard.className = "member-card";
+                memberCard.dataset.id = member.id; // 데이터셋으로 ID 저장
+
+                var imageElement = document.createElement("img");
+                imageElement.className = "member-image";
+                imageElement.src = member.image;
+                imageElement.style.width = "100px";
+                imageElement.style.height = "auto";
+                memberCard.appendChild(imageElement);
+
+                var nameElement = document.createElement("h2");
+                nameElement.className = "member-name";
+                nameElement.textContent = member.name;
+                memberCard.appendChild(nameElement);
+
+                var mbtiElement = document.createElement("p");
+                mbtiElement.className = "member-mbti";
+                mbtiElement.textContent = "MBTI: " + member.mbti;
+                memberCard.appendChild(mbtiElement);
+
+                var introductionElement = document.createElement("p");
+                introductionElement.className = "member-introduction";
+                introductionElement.textContent = "자기 소개: " + member.introduction;
+                memberCard.appendChild(introductionElement);
+
+                var strengthsElement = document.createElement("p");
+                strengthsElement.className = "member-strengths";
+                strengthsElement.textContent = "객관적인 자신의 장점: " + member.strengths;
+                memberCard.appendChild(strengthsElement);
+
+                var styleElement = document.createElement("p");
+                styleElement.className = "member-style";
+                styleElement.textContent = "자신만의 협업 스타일: " + member.style;
+                memberCard.appendChild(styleElement);
+
+                var goalElement = document.createElement("p");
+                goalElement.className = "member-goal";
+                goalElement.textContent = "추구하는 궁극적인 목표: " + member.goal;
+                memberCard.appendChild(goalElement);
+
+                var editButton = document.createElement("button");
+                editButton.textContent = "수정하기";
+                editButton.className = "edit-button";
+                memberCard.appendChild(editButton);
+
+                var deleteButton = document.createElement("button");
+                deleteButton.textContent = "삭제하기";
+                deleteButton.className = "delete-button";
+                memberCard.appendChild(deleteButton);
+
+                memberList.appendChild(memberCard);
+            });
+        }
+
+        // 합류하기 폼 표시 함수
+        document.getElementById("addButton").addEventListener("click", function () {
+            document.querySelector(".join-form").style.display = "block";
+        });
+
+        // 합류하기 폼 취소 함수
+        document.getElementById("cancelAddButton").addEventListener("click", function () {
+            document.querySelector(".join-form").style.display = "none";
+        });
+
+        // 합류하기 폼 제출 함수
+        document.getElementById("addForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // 폼 제출 기본 동작 막기
+
+            var imageURL = document.getElementById("addImageURL").value;
+            var name = document.getElementById("addName").value;
+            var mbti = document.getElementById("addMbti").value;
+            var introduction = document.getElementById("addIntroduction").value;
+            var strengths = document.getElementById("addStrengths").value;
+            var style = document.getElementById("addStyle").value;
+            var goal = document.getElementById("addGoal").value;
+
+            // 새로운 팀원 객체 생성
+            var newMember = {
+                id: teamMembers.length + 1, // 현재 팀원 수 + 1
+                name: name,
+                mbti: mbti,
+                image: imageURL,
+                introduction: introduction,
+                strengths: strengths,
+                style: style,
+                goal: goal
+            };
+
+            // 합류하기
+            teamMembers.push(newMember);
+
+            // 팀원 목록 다시 표시
+            displayTeamMembers();
+
+            // 폼 초기화 및 숨김
+            document.getElementById("addImageURL").value = "";
+            document.getElementById("addName").value = "";
+            document.getElementById("addMbti").value = "";
+            document.getElementById("addIntroduction").value = "";
+            document.getElementById("addStrengths").value = "";
+            document.getElementById("addStyle").value = "";
+            document.getElementById("addGoal").value = "";
+            document.querySelector(".join-form").style.display = "none";
+        });
+
+        // 수정 폼 취소 함수
+        document.getElementById("cancelEditButton").addEventListener("click", function () {
+            // 수정 폼 숨김
+            document.querySelector(".edit-form").style.display = "none";
+        });
+
+        // 팀원 수정 폼 표시 함수
+        document.getElementById("memberList").addEventListener("click", function (event) {
+            if (event.target.classList.contains("edit-button")) {
+                var memberId = parseInt(event.target.parentNode.dataset.id); // 해당 팀원의 ID 가져오기
+                var member = teamMembers.find(function (member) {
+                    return member.id === memberId;
+                });
+
+                // 수정 폼에 해당 팀원의 정보 표시
+                document.getElementById("editImageURL").value = member.image;
+                document.getElementById("editName").value = member.name;
+                document.getElementById("editMbti").value = member.mbti;
+                document.getElementById("editIntroduction").value = member.introduction;
+                document.getElementById("editStrengths").value = member.strengths;
+                document.getElementById("editStyle").value = member.style;
+                document.getElementById("editGoal").value = member.goal;
+
+                // 수정 폼 표시
+                document.querySelector(".edit-form").style.display = "block";
+
+                // 수정하기 버튼에 대한 이벤트 리스너 추가
+                document.getElementById("editSubmitButton").addEventListener("click", function () {
+                    // 수정된 정보로 팀원 업데이트
+                    member.image = document.getElementById("editImageURL").value;
+                    member.name = document.getElementById("editName").value;
+                    member.mbti = document.getElementById("editMbti").value;
+                    member.introduction = document.getElementById("editIntroduction").value;
+                    member.strengths = document.getElementById("editStrengths").value;
+                    member.style = document.getElementById("editStyle").value;
+                    member.goal = document.getElementById("editGoal").value;
+
+                    // 팀원 목록 다시 표시
+                    displayTeamMembers();
+
+                    // 수정폼 숨김
+                    document.querySelector(".edit-form").style.display = "none";
+                });
+            }
+        });
+
+        // 초기 팀원 목록 표시 // 4월 15일 저장
+        displayTeamMembers();
+    </script>
+</body>
+
+</html>
