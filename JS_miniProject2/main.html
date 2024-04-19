@@ -137,7 +137,8 @@
             memberList.empty(); // 기존 목록 초기화
             teamMembers.forEach((member) => {
                 let cardParent = $("<div class='card'>"); // junmo
-                let cardHeader = $("<h5 class='card-header text-center'>").text(member.name);
+                let cardHeader = $("<h5 class='card-header text-center'>").html("<strong>" + member.name + "</strong>");
+
                 cardParent.append(cardHeader);
 
                 let memberCard = $("<div class=' member-card ' data-id='" + member.id + "'>");
@@ -146,18 +147,24 @@
                 imageElement.attr("src", member.image);
                 imageElement.css({ width: "100px", height: "auto" });
                 memberCard.append(imageElement);
-                let nameElement = $("<h2 class='member-name'>").text(member.name);
-                memberCard.append(nameElement);
-                let mbtiElement = $("<p class='member-mbti'>").text("MBTI: " + member.mbti);
+                //let nameElement = $("<h2 class='member-name'>").html("<strong>" + member.name + "</strong>");
+                //memberCard.append(nameElement);
+
+                let mbtiElement = $("<p class='member-mbti'>").html("<strong>MBTI :</strong> " + member.mbti);
                 memberCard.append(mbtiElement);
-                let introductionElement = $("<p class='member-introduction'>").text("자기 소개: " + member.introduction);
+
+                let introductionElement = $("<p class='member-introduction'>").html("<strong>자기 소개 :</strong> " + member.introduction);
                 memberCard.append(introductionElement);
-                let strengthsElement = $("<p class='member-strengths'>").text("객관적인 자신의 장점: " + member.strengths);
+
+                let strengthsElement = $("<p class='member-strengths'>").html("<strong>객관적인 자신의 장점 :</strong> " + member.strengths);
                 memberCard.append(strengthsElement);
-                let styleElement = $("<p class='member-style'>").text("자신만의 협업 스타일: " + member.style);
+
+                let styleElement = $("<p class='member-style'>").html("<strong>자신만의 협업 스타일 :</strong> " + member.style);
                 memberCard.append(styleElement);
-                let goalElement = $("<p class='member-goal'>").text("추구하는 궁극적인 목표: " + member.goal);
+
+                let goalElement = $("<p class='member-goal'>").html("<strong>추구하는 궁극적인 목표 :</strong> " + member.goal);
                 memberCard.append(goalElement);
+
                 let editButton = $("<button class='edit-button btn btn-success'>").text("수정하기");
                 memberCard.append(editButton);
                 memberCard.append("&nbsp;&nbsp;");
