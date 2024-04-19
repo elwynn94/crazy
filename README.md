@@ -1,2 +1,0 @@
-# crazy
-sparta-mini-project
