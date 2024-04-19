@@ -4,56 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>미7거같조팀원</title>
+    <title>미7거같조 보석함</title>
     <link rel="stylesheet" href="yj.css">
+    <!-- Firebase 스크립트 및 jQuery 추가 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let index = 1;
 
-            function juyeonsAttack() {
-                var canvas = document.getElementById(`myCanvas${index++}`);
-                var context = canvas.getContext("2d");
-                var imgx = 100;
-                var imgy = 300;
-                var x = (canvas.width - imgx) * Math.random();
-                var y = (canvas.height - imgy) * Math.random();
-                var dx = Math.random() * 5 - Math.random() * 5;//-5~+5
-                var dy = Math.random() * 5 - Math.random() * 5;//-5~+5
-                var img = new Image();
-                img.src = "morty.png";
-                img.onload = function () {
-                    function draw() {
-                        context.clearRect(0, 0, canvas.width, canvas.height);
-                        context.drawImage(img, x, y, imgx, imgy);
-                        x += dx;
-                        y += dy;
-                        if (x > canvas.width - imgx | x < 0)
-                            dx = -dx;
-                        if (y > canvas.height - imgy | y < 0)
-                            dy = -dy;
-                    }
-                    setInterval(draw, 10);
-                }
-            }
-            let timerId = setInterval(() => juyeonsAttack(), 1000);
-            setTimeout(() => { clearInterval(timerId); }, 24000);
-            function tinkle() {
-                const tinkle = document.getElementById("tinkle");
-
-                if (tinkle.style.opacity == "0") {
-                $('.teamTitle').css("font-size", "100px");
-                $('.teamTitle').css("color", "blue");
-                    tinkle.style.opacity = "1";
-                } else {
-                    tinkle.style.opacity = "0";
-                $('.teamTitle').css("font-size", "75px");
-                $('.teamTitle').css("color", "red");
-                }
-            }
-            setInterval(tinkle, 300);
-        })
-    </script>
+    <!--주연님 코드-->
     <style>
         body {
             background-image: url('bono.jpg');
@@ -100,9 +58,464 @@
             display: none;
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let index = 1;
+
+            function juyeonsAttack() {
+                var canvas = document.getElementById(`myCanvas${index++}`);
+                var context = canvas.getContext("2d");
+                var imgx = 100;
+                var imgy = 300;
+                var x = (canvas.width - imgx) * Math.random();
+                var y = (canvas.height - imgy) * Math.random();
+                var dx = Math.random() * 5 - Math.random() * 5;//-5~+5
+                var dy = Math.random() * 5 - Math.random() * 5;//-5~+5
+                var img = new Image();
+                img.src = "morty.png";
+                img.onload = function () {
+                    function draw() {
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        context.drawImage(img, x, y, imgx, imgy);
+                        x += dx;
+                        y += dy;
+                        if (x > canvas.width - imgx | x < 0)
+                            dx = -dx;
+                        if (y > canvas.height - imgy | y < 0)
+                            dy = -dy;
+                    }
+                    setInterval(draw, 10);
+                }
+            }
+            let timerId = setInterval(() => juyeonsAttack(), 1000);
+            setTimeout(() => { clearInterval(timerId); }, 24000);
+            function tinkle() {
+                const tinkle = document.getElementById("tinkle");
+
+                if (tinkle.style.opacity == "0") {
+                    $('.teamTitle').css("font-size", "100px");
+                    $('.teamTitle').css("color", "blue");
+                    tinkle.style.opacity = "1";
+                } else {
+                    tinkle.style.opacity = "0";
+                    $('.teamTitle').css("font-size", "75px");
+                    $('.teamTitle').css("color", "red");
+                }
+            }
+            setInterval(tinkle, 300);
+        })
+    </script>
+    <!--주연님 END-->
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { query, where, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        // Firebase 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-xJFc8Ge7CIvetknTG9FRLPDnscDKEXE",
+            authDomain: "mi7kkugatjo.firebaseapp.com",
+            projectId: "mi7kkugatjo",
+            storageBucket: "mi7kkugatjo.appspot.com",
+            messagingSenderId: "1013473593809",
+            appId: "1:1013473593809:web:53f1c47c93b51703b4f8f0",
+            measurementId: "G-RW0GB17D1W"
+        };
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        //윤재님 Start
+        // 팀원 정보
+        let teamMembers = [];
+
+
+        // 팀원 리스트 표시 함수
+        function displayTeamMembers() {
+            let memberList = $("#memberList");
+            memberList.empty(); // 기존 목록 초기화
+            teamMembers.forEach((member) => {
+                let cardParent = $("<div class='card'>"); // junmo
+                let cardHeader = $("<h5 class='card-header text-center'>").text(member.name);
+                cardParent.append(cardHeader);
+
+                let memberCard = $("<div class=' member-card ' data-id='" + member.id + "'>");
+                    
+                let imageElement = $("<img class='member-image'>");
+                imageElement.attr("src", member.image);
+                imageElement.css({ width: "100px", height: "auto" });
+                memberCard.append(imageElement);
+                let nameElement = $("<h2 class='member-name'>").text(member.name);
+                memberCard.append(nameElement);
+                let mbtiElement = $("<p class='member-mbti'>").text("MBTI: " + member.mbti);
+                memberCard.append(mbtiElement);
+                let introductionElement = $("<p class='member-introduction'>").text("자기 소개: " + member.introduction);
+                memberCard.append(introductionElement);
+                let strengthsElement = $("<p class='member-strengths'>").text("객관적인 자신의 장점: " + member.strengths);
+                memberCard.append(strengthsElement);
+                let styleElement = $("<p class='member-style'>").text("자신만의 협업 스타일: " + member.style);
+                memberCard.append(styleElement);
+                let goalElement = $("<p class='member-goal'>").text("추구하는 궁극적인 목표: " + member.goal);
+                memberCard.append(goalElement);
+                let editButton = $("<button class='edit-button btn btn-success'>").text("수정하기");
+                memberCard.append(editButton);
+                memberCard.append("&nbsp;&nbsp;");
+                let deleteButton = $("<button class='delete-button btn btn-danger'>").text("삭제하기");
+                memberCard.append(deleteButton);
+
+                var commentElement = $("<p id = "+member.id+"CommentsParent>").text("");
+                memberCard.append(commentElement);
+
+                cardParent.append(memberCard);
+                memberList.append(cardParent);
+                //memberList.append(memberCard); origin
+
+                CreateCommentWindow(member.id + ""); //junmo
+            });
+        }
+
+        // 팀원 추가 후 팀원 목록 다시 랜더링하는 함수
+        async function updateTeamMembers() {
+            // Firebase에서 팀원 데이터 가져오기
+            const querySnapshot = await getDocs(collection(db, "member"));
+            teamMembers = []; // Clear the teamMembers array
+            querySnapshot.forEach((doc) => {
+                teamMembers.push({ id: doc.id, ...doc.data() });
+            });
+            // 팀원 목록 다시 랜더링
+            displayTeamMembers();
+        }
+
+        // 데이터 추가 후 팀원 목록 다시 랜더링
+        async function addTeamMemberToFirestore(member) {
+            try {
+                // Firestore에 데이터 추가
+                const docRef = await addDoc(collection(db, "member"), member);
+                console.log("Document written with ID: ", docRef.id);
+                // 데이터 추가 후 팀원 목록 다시 랜더링
+                updateTeamMembers();
+            } catch (error) {
+                console.error("Error adding document: ", error);
+            }
+        }
+
+        // 팀원 정보를 Firestore에 업데이트하는 함수
+        async function updateTeamMemberInFirestore(member) {
+            try {
+                const docRef = doc(db, "member", member.id);
+                await setDoc(docRef, member);
+                console.log("Document updated successfully");
+            } catch (error) {
+                console.error("Error updating document: ", error);
+            }
+            window.location.reload();
+        }
+
+        // 삭제하기 버튼 클릭 이벤트 처리
+        $("#memberList").on("click", ".delete-button", function () {
+            let memberId = $(this).parent().data("id"); // 해당 팀원의 ID 가져오기
+            // Firestore에서 해당 팀원 데이터 삭제
+            deleteTeamMemberFromFirestore(memberId);
+        });
+
+        // Firestore에서 팀원 데이터 삭제
+        async function deleteTeamMemberFromFirestore(memberId) {
+            try {
+                await deleteDoc(doc(db, "member", memberId));
+                console.log("Document successfully deleted");
+                // 팀원 목록 다시 랜더링
+                updateTeamMembers();
+            } catch (error) {
+                console.error("Error removing document: ", error);
+            }
+        }
+
+        // 페이지 로딩 시 팀원 정보를 Firestore에서 가져와 표시
+        updateTeamMembers();
+
+        // 수정 폼 취소 함수
+        $("#cancelEditButton").click(function () {
+            // 수정 폼 숨김
+            $(".edit-form").hide();
+        });
+
+        // 합류하기 버튼 클릭 이벤트 처리
+        $("#addButton").click(function () {
+            // 합류하기 폼 토글
+            $(".join-form").toggle();
+        });
+
+        // 수정 폼 취소 버튼 클릭 이벤트 처리
+        $("#cancelAddButton").click(function () {
+            // 합류하기 폼 숨김
+            $(".join-form").hide();
+        });
+
+        // 합류하기 폼에서의 추가하기 버튼 클릭 이벤트 처리
+        $("#addForm").submit(function (event) {
+            event.preventDefault(); // 기본 동작 방지 (페이지 새로고침)
+            // 새로운 팀원 정보 생성
+            let newMember = {
+                image: $("#addImageURL").val(),
+                name: $("#addName").val(),
+                mbti: $("#addMbti").val(),
+                introduction: $("#addIntroduction").val(),
+                strengths: $("#addStrengths").val(),
+                style: $("#addStyle").val(),
+                goal: $("#addGoal").val()
+            };
+            // Firestore에 팀원 정보 추가
+            addTeamMemberToFirestore(newMember);
+            // 합류하기 폼 숨김
+            $(".join-form").hide();
+            // 폼 초기화
+            $(this)[0].reset();
+        });
+
+        // 팀원 수정 폼 표시 함수
+        $("#memberList").on("click", ".edit-button", function () {
+            let memberId = $(this).parent().data("id"); // 해당 팀원의 ID 가져오기
+            let member = teamMembers.find((member) => {
+                return member.id === memberId;
+            });
+            // 수정 폼에 해당 팀원의 정보 표시
+            $("#editImageURL").val(member.image);
+            $("#editName").val(member.name);
+            $("#editMbti").val(member.mbti);
+            $("#editIntroduction").val(member.introduction);
+            $("#editStrengths").val(member.strengths);
+            $("#editStyle").val(member.style);
+            $("#editGoal").val(member.goal);
+            // 수정 폼 표시
+            $(".edit-form").show();
+            // 수정하기 버튼에 대한 이벤트 리스너 추가
+            $("#editSubmitButton").off().click(function () {
+                // 수정된 정보로 팀원 업데이트
+                member.image = $("#editImageURL").val();
+                member.name = $("#editName").val();
+                member.mbti = $("#editMbti").val();
+                member.introduction = $("#editIntroduction").val();
+                member.strengths = $("#editStrengths").val();
+                member.style = $("#editStyle").val();
+                member.goal = $("#editGoal").val();
+                // Firestore에 수정된 정보 업데이트
+                updateTeamMemberInFirestore(member);
+                // 수정폼 숨김
+                $(".edit-form").hide();
+            });
+        });
+        //윤재님 END
+
+        //준모님 Start
+
+        function ReName(Name, originName) {
+            return originName[0] + Name + originName.substring(1);
+        }
+
+        async function getOwnerData(owner) {
+            //const q = query(collection(db, "comments"), where("owner", "==", onwer));
+            //let docs = await getDocs(collection(db, "comments"));
+
+            const q = query(collection(db, "comments"), where("owner", "==", owner), orderBy("timestamp", "asc"));
+            let docs = await getDocs(q);
+            return docs;
+            docs.forEach((doc) => {
+                let row = doc.data();
+                console.log(row);
+            });
+        }
+
+        async function DeleteCommentData(id) {
+            //const q = query(collection(db, "comments"), where("owner", "==", onwer));
+            //let docs = await getDocs(collection(db, "comments"));
+            await deleteDoc(doc(db, "comments", id));;
+
+        }
+
+        function CreateCommentWindow(owner) {
+            let temp_html = `
+            <div class="container mt-5">
+            <button id="${owner}commentbtn" type="button" class="btn btn-primary btn-lg">인사말 남기기</button>
+            <div id=${owner}commentView style="display: none;">
+                </br>
+                <!--<h2>인사하기</h2>-->
+                <div id="${owner}commentList"></div>
+
+                <form id="${owner}commentForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name"><strong>이름</strong></label>
+                                <input type="text" class="form-control" id="${owner}name" placeholder="이름을 입력하세요">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password"><strong>비밀번호</strong></label>
+                                <input type="password" class="form-control" id="${owner}password" placeholder="비밀번호를 입력하세요">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!--<label for="icon">아이콘</label>-->
+                                <select class="form-control" id="${owner}icon">
+                                    <option value="fas fa-smile">웃는 얼굴</option>
+                                    <option value="fas fa-heart">하트</option>
+                                    <option value="fas fa-star">별</option>
+                                    <option value="fas fa-thumbs-up">좋아요</option>
+                                    <option value="fas fa-coffee">커피</option>
+                                    <option value="fas fa-sun">태양</option>
+                                    <option value="fas fa-moon">달</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!--<label>아이콘 미리보기:</label><br>-->
+                                <i id="${owner}iconPreview" class="icon-preview fas fa-smile"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment"><strong>인사말 작성</strong></label>
+                        <textarea class="form-control" id="${owner}comment" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">댓글 달기</button>
+
+                </form>
+            </div>
+            `;
+
+            $('#' + owner + 'CommentsParent').append(temp_html);
+            //펼치기 기능
+            $(ReName(owner, "#commentbtn")).click(async function () {
+                $(ReName(owner, "#commentView")).toggle();
+                console.log('toggle 작동');
+            })
+
+            //댓글 가져오기
+            //let docs = getOwnerData(owner) // async 함수는 항상 promise 반환한데서 다른 방법으로 돌아가야함
+            getOwnerData(owner).then(result => {
+                console.log(result);
+                let docs = result;
+                result.forEach((doc) => {
+                    let row = doc.data();
+                    console.log(row);
+                    console.log(doc.id);
+
+                    let icon = row['icon'];
+                    let name = row['name'];
+                    let comment = row['comment'];
+                    let timestamp = row['timestamp'];
+                    let password = row['password'];
+
+                    var commentList = $(ReName(owner, "#commentList"));
+                    var commentElement = $("<div class='comment alert alert-info'></div>");
+
+                    commentElement.html("<p><i class='" + icon + "'></i> <strong>" + name + "</strong> : " + comment + "<br/> (" + timestamp + ")</p><button type='button' class='btn btn-danger btn-sm delete-comment' data-password='" + password + "'>댓글 지우기</button>");
+                    commentList.append(commentElement);
+
+                    // 댓글 지우기 버튼에 이벤트 리스너 추가
+                    commentElement.find(".delete-comment").click(function () {
+                        var inputPassword = prompt("비밀번호를 입력하세요:");
+                        if (inputPassword === password) {
+                            $(this).parent().remove();
+                            //deleteDoc(doc(db, "comments", doc.id));
+                            DeleteCommentData(doc.id);
+                        } else {
+                            alert("비밀번호가 일치하지 않습니다.");
+                        }
+                    });
+
+                });
+            });
+
+            //이벤트 추가
+            $(ReName(owner, "#commentForm")).submit(function (event) {
+                var nameInput = $(ReName(owner, "#name"));
+                var passwordInput = $(ReName(owner, "#password"));
+                var commentInput = $(ReName(owner, "#comment"));
+                var iconSelect = $(ReName(owner, "#icon"));
+
+                event.preventDefault();
+                var name = nameInput.val();
+                var icon = iconSelect.val();
+                var password = passwordInput.val();
+                var commentText = commentInput.val();
+                if (name.trim() === "" || password.trim() === "" || commentText.trim() === "") {
+                    alert("이름, 비밀번호, 댓글을 모두 입력하세요.");
+                    return;
+                }
+
+                var currentTime = new Date();
+                var formattedTime = currentTime.getFullYear() + "." + (currentTime.getMonth() + 1) + "." + currentTime.getDate() + " " + currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
+
+                // Firebase Firestore에 데이터 추가
+                let doc = {
+                    owner: owner,
+                    name: name,
+                    icon: icon,
+                    comment: commentText,
+                    password: password,
+                    timestamp: formattedTime
+                };
+                let id = addDoc(collection(db, "comments"), doc).then(result => {
+                    console.log("Document successfully written!");
+                    console.log(result.id);
+
+                    //add에 성공하면 댓글 추가 밑 삭제하기 버튼 추가
+                    var commentList = $(ReName(owner, "#commentList"));
+                    var commentElement = $("<div class='comment alert alert-info'></div>");
+
+                    commentElement.html("<p><i class='" + icon + "'></i> <strong>" + name + "</strong>: " + commentText + "<br/> (" + formattedTime + ")</p><button type='button' class='btn btn-danger btn-sm delete-comment' data-password='" + password + "'>댓글 지우기</button>");
+                    commentList.append(commentElement);
+
+                    // 댓글 지우기 버튼에 이벤트 리스너 추가
+                    commentElement.find(".delete-comment").click(function () {
+                        var inputPassword = prompt("비밀번호를 입력하세요:");
+                        var storedPassword = $(this).attr("data-password");
+                        if (inputPassword === storedPassword) {
+                            $(this).parent().remove();
+                            DeleteCommentData(result.id);
+                        } else {
+                            alert("비밀번호가 일치하지 않습니다.");
+                        }
+                    });
+
+
+                    // 입력창 비우기
+                    nameInput.val("");
+                    passwordInput.val("");
+                    commentInput.val("");
+
+
+                }).catch((error) => {
+                    console.error("Error writing document: ", error);
+                });
+
+            });
+
+            $(ReName(owner, "#icon")).change(function () {
+                var iconPreview = $(ReName(owner, "#iconPreview"));
+                var selectedIcon = $(this).val();
+                iconPreview.attr("class", "icon-preview " + selectedIcon);
+            });
+
+        }
+
+        //준모님 END
+
+    </script>
 </head>
 
 <body>
+    <!--주연님 Start-->
     <div class="tinkle" id="tinkle"></div>
     <canvas id="myCanvas1" width='1920' height='1080'></canvas>
     <canvas id="myCanvas2" width='1920' height='1080'></canvas>
@@ -132,52 +545,55 @@
     <div class="wrapper">
 
     </div>
+    <!--주연님 END-->
+
+    <!--윤재님 Start-->
+    <h1>미7거같조 보석함</h1>
     <div id="memberList">
         <!-- 팀원 소개 칸 -->
     </div>
-
     <!-- 합류하기 버튼 -->
-    <button id="addButton">합류하기</button>
-
+    <button id="addButton"><strong>합류하기</strong></button>
     <!-- 합류하기 폼 -->
-    <div class="join-form">
+    <div class="join-form" style="display: none;">
         <h2>합류하기</h2>
         <form id="addForm">
             <div>
-                <label for="addImageURL">이미지 주소:</label>
+                <label for="addImageURL"><strong>이미지 주소</strong></label></br>
                 <input type="text" id="addImageURL" required>
             </div>
             <div>
-                <label for="addName">이름:</label>
+                <label for="addName"><strong>이름</strong></label></br>
                 <input type="text" id="addName" required>
             </div>
             <div>
-                <label for="addMbti">MBTI:</label>
+                <label for="addMbti"><strong>MBTI</strong></label></br>
                 <input type="text" id="addMbti" required>
             </div>
             <div>
-                <label for="addIntroduction">자기 소개:</label>
+                <label for="addIntroduction"><strong>자기 소개</strong></label></br>
                 <textarea id="addIntroduction" rows="4" cols="50" required></textarea>
             </div>
             <div>
-                <label for="addStrengths">객관적인 자신의 장점:</label>
+                <label for="addStrengths"><strong>객관적인 자신의 장점</strong></label></br>
                 <textarea id="addStrengths" rows="2" cols="50" required></textarea>
             </div>
             <div>
-                <label for="addStyle">자신만의 협업 스타일:</label>
+                <label for="addStyle"><strong>자신만의 협업 스타일</strong></label></br>
                 <textarea id="addStyle" rows="2" cols="50" required></textarea>
             </div>
             <div>
-                <label for="addGoal">추구하는 궁극적인 목표:</label>
+                <label for="addGoal"><strong>추구하는 궁극적인 목표</strong></label></br>
                 <textarea id="addGoal" rows="2" cols="50" required></textarea>
             </div>
-            <button type="submit">추가하기</button>
-            <button type="button" id="cancelAddButton">취소하기</button>
+            <div class="text-center">
+                <button type="submit" id="postingbtn">추가하기</button>
+                <button type="button" id="cancelAddButton">취소하기</button>
+            </div>
         </form>
     </div>
-
     <!-- 수정 폼 -->
-    <div class="edit-form">
+    <div class="edit-form" style="display: none;">
         <h2>팀원 수정</h2>
         <form id="editForm">
             <div class="form-group">
@@ -208,186 +624,13 @@
                 <label for="editGoal">추구하는 궁극적인 목표:</label>
                 <textarea id="editGoal" rows="2" required></textarea>
             </div>
-            <div class="button-group">
+            <div class="text-center button-group">
                 <button type="button" id="editSubmitButton">저장하기</button>
                 <button type="button" id="cancelEditButton">취소하기</button>
             </div>
         </form>
     </div>
-
-
-    <script>
-
-        // 팀원 정보
-        var teamMembers = [
-            { id: 1, name: "어동선", mbti: "INTP", image: "", introduction: "", strengths: "", style: "", goal: "" },
-            { id: 2, name: "강준모 gitTest1ㅇ", mbti: "ISTJ", image: "", introduction: "", strengths: "", style: "", goal: "" },
-            { id: 3, name: "김윤재", mbti: "INFJ", image: "https://postfiles.pstatic.net/MjAyMzA1MTlfNTkg/MDAxNjg0NTA3MjI1MzY5.By6-h6NkUG7C2rkf65uenyHqJLE8NYCK7U0tLPn6LnMg.__rcEOf36DqndApIFdNs20GBBMWmpmU1Qk0vmg5rDtgg.JPEG.clover14_/028819A8-C0A4-4D3C-A611-1EDE52C4CF4D.jpg?type=w966", introduction: "", strengths: "", style: "", goal: "" },
-            { id: 4, name: "노주연", mbti: "INTP", image: "", introduction: "", strengths: "", style: "", goal: "" },
-            { id: 5, name: "이제범", mbti: "ENFJ", image: "", introduction: "", strengths: "", style: "", goal: "" }
-        ];
-
-        // 팀원 리스트 표시 함수
-        function displayTeamMembers() {
-            var memberList = document.getElementById("memberList");
-            memberList.innerHTML = ""; // 기존 목록 초기화
-
-            teamMembers.forEach(function (member) {
-                var memberCard = document.createElement("div");
-                memberCard.className = "member-card";
-                memberCard.dataset.id = member.id; // 데이터셋으로 ID 저장
-
-                var imageElement = document.createElement("img");
-                imageElement.className = "member-image";
-                imageElement.src = member.image;
-                imageElement.style.width = "100px";
-                imageElement.style.height = "auto";
-                memberCard.appendChild(imageElement);
-
-                var nameElement = document.createElement("h2");
-                nameElement.className = "member-name";
-                nameElement.textContent = member.name;
-                memberCard.appendChild(nameElement);
-
-                var mbtiElement = document.createElement("p");
-                mbtiElement.className = "member-mbti";
-                mbtiElement.textContent = "MBTI: " + member.mbti;
-                memberCard.appendChild(mbtiElement);
-
-                var introductionElement = document.createElement("p");
-                introductionElement.className = "member-introduction";
-                introductionElement.textContent = "자기 소개: " + member.introduction;
-                memberCard.appendChild(introductionElement);
-
-                var strengthsElement = document.createElement("p");
-                strengthsElement.className = "member-strengths";
-                strengthsElement.textContent = "객관적인 자신의 장점: " + member.strengths;
-                memberCard.appendChild(strengthsElement);
-
-                var styleElement = document.createElement("p");
-                styleElement.className = "member-style";
-                styleElement.textContent = "자신만의 협업 스타일: " + member.style;
-                memberCard.appendChild(styleElement);
-
-                var goalElement = document.createElement("p");
-                goalElement.className = "member-goal";
-                goalElement.textContent = "추구하는 궁극적인 목표: " + member.goal;
-                memberCard.appendChild(goalElement);
-
-                var editButton = document.createElement("button");
-                editButton.textContent = "수정하기";
-                editButton.className = "edit-button";
-                memberCard.appendChild(editButton);
-
-                var deleteButton = document.createElement("button");
-                deleteButton.textContent = "삭제하기";
-                deleteButton.className = "delete-button";
-                memberCard.appendChild(deleteButton);
-
-                memberList.appendChild(memberCard);
-            });
-        }
-
-        // 합류하기 폼 표시 함수
-        document.getElementById("addButton").addEventListener("click", function () {
-            document.querySelector(".join-form").style.display = "block";
-        });
-
-        // 합류하기 폼 취소 함수
-        document.getElementById("cancelAddButton").addEventListener("click", function () {
-            document.querySelector(".join-form").style.display = "none";
-        });
-
-        // 합류하기 폼 제출 함수
-        document.getElementById("addForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // 폼 제출 기본 동작 막기
-
-            var imageURL = document.getElementById("addImageURL").value;
-            var name = document.getElementById("addName").value;
-            var mbti = document.getElementById("addMbti").value;
-            var introduction = document.getElementById("addIntroduction").value;
-            var strengths = document.getElementById("addStrengths").value;
-            var style = document.getElementById("addStyle").value;
-            var goal = document.getElementById("addGoal").value;
-
-            // 새로운 팀원 객체 생성
-            var newMember = {
-                id: teamMembers.length + 1, // 현재 팀원 수 + 1
-                name: name,
-                mbti: mbti,
-                image: imageURL,
-                introduction: introduction,
-                strengths: strengths,
-                style: style,
-                goal: goal
-            };
-
-            // 합류하기
-            teamMembers.push(newMember);
-
-            // 팀원 목록 다시 표시
-            displayTeamMembers();
-
-            // 폼 초기화 및 숨김
-            document.getElementById("addImageURL").value = "";
-            document.getElementById("addName").value = "";
-            document.getElementById("addMbti").value = "";
-            document.getElementById("addIntroduction").value = "";
-            document.getElementById("addStrengths").value = "";
-            document.getElementById("addStyle").value = "";
-            document.getElementById("addGoal").value = "";
-            document.querySelector(".join-form").style.display = "none";
-        });
-
-        // 수정 폼 취소 함수
-        document.getElementById("cancelEditButton").addEventListener("click", function () {
-            // 수정 폼 숨김
-            document.querySelector(".edit-form").style.display = "none";
-        });
-
-        // 팀원 수정 폼 표시 함수
-        document.getElementById("memberList").addEventListener("click", function (event) {
-            if (event.target.classList.contains("edit-button")) {
-                var memberId = parseInt(event.target.parentNode.dataset.id); // 해당 팀원의 ID 가져오기
-                var member = teamMembers.find(function (member) {
-                    return member.id === memberId;
-                });
-
-                // 수정 폼에 해당 팀원의 정보 표시
-                document.getElementById("editImageURL").value = member.image;
-                document.getElementById("editName").value = member.name;
-                document.getElementById("editMbti").value = member.mbti;
-                document.getElementById("editIntroduction").value = member.introduction;
-                document.getElementById("editStrengths").value = member.strengths;
-                document.getElementById("editStyle").value = member.style;
-                document.getElementById("editGoal").value = member.goal;
-
-                // 수정 폼 표시
-                document.querySelector(".edit-form").style.display = "block";
-
-                // 수정하기 버튼에 대한 이벤트 리스너 추가
-                document.getElementById("editSubmitButton").addEventListener("click", function () {
-                    // 수정된 정보로 팀원 업데이트
-                    member.image = document.getElementById("editImageURL").value;
-                    member.name = document.getElementById("editName").value;
-                    member.mbti = document.getElementById("editMbti").value;
-                    member.introduction = document.getElementById("editIntroduction").value;
-                    member.strengths = document.getElementById("editStrengths").value;
-                    member.style = document.getElementById("editStyle").value;
-                    member.goal = document.getElementById("editGoal").value;
-
-                    // 팀원 목록 다시 표시
-                    displayTeamMembers();
-
-                    // 수정폼 숨김
-                    document.querySelector(".edit-form").style.display = "none";
-                });
-            }
-        });
-
-        // 초기 팀원 목록 표시 // 4월 15일 저장
-        displayTeamMembers();
-    </script>
+    <!--윤재님 END-->
 </body>
 
 </html>
